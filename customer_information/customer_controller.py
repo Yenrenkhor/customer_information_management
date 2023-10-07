@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, abort
-from .customer_model import db, Customer
+from .customer_model import customer_db, Customer
 from flask_jwt_extended import jwt_required
 
 customer_blueprint = Blueprint('customer', __name__)
@@ -22,8 +22,8 @@ def create_customer():
             phone=customer_json['phone'],
             email=customer_json['email']
         )
-        db.session.add(customer)
-        db.session.commit()
+        customer_db.session.add(customer)
+        customer_db.session.commit()
         return jsonify(customer.to_dict(), 200)
 
     except ValueError as e:
@@ -56,7 +56,7 @@ def update_customer_by_id(customer_id):
     for key, value in updated_fields.items():
         setattr(customer, key, value)
 
-    db.session.commit()
+    customer_db.session.commit()
     return jsonify(customer.to_dict())
 
 
@@ -66,8 +66,8 @@ def delete_customer_by_id(customer_id):
     customer = Customer.query.get(customer_id)
     if customer is None:
         abort(404)
-    db.session.delete(customer)
-    db.session.commit()
+    customer_db.session.delete(customer)
+    customer_db.session.commit()
     return jsonify({"message": "Customer deleted successfully"})
 
 

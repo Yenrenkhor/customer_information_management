@@ -3,8 +3,6 @@ from .user_model import user_db, User
 from flask_jwt_extended import create_access_token, create_refresh_token
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# , jwt_refresh_token_required
-
 user_auth_blueprint = Blueprint('user', __name__)
 
 

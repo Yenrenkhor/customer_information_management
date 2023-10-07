@@ -2,7 +2,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 
-from customer_information.customer_model import db
+from customer_information.customer_model import customer_db
 from customer_information.customer_controller import customer_blueprint
 from user_authentication.user_model import user_db
 from user_authentication.user_controller import user_auth_blueprint
@@ -18,7 +18,7 @@ app.config['JWT_SECRET_KEY'] = 'admin'
 jwt = JWTManager(app)
 
 # Initialize the database
-db.init_app(app)
+customer_db.init_app(app)
 user_db.init_app(app)
 
 # Register blueprints (views)
@@ -29,6 +29,6 @@ app.register_blueprint(customer_blueprint, url_prefix='/customer')
 if __name__ == '__main__':
     with app.app_context():
         # Create the database tables
-        db.create_all()
+        customer_db.create_all()
         user_db.create_all()
-    app.run(port=8080, debug=True)
+    app.run(port=8080)
